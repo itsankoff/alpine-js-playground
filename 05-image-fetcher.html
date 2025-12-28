@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE-edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>Document</title>
+
+        <script src="//unpkg.com/alpinejs" defer></script>
+    </head>
+
+    <body>
+        <div x-data="{
+            authToken: 'OhjlEJB7UzW1F0e39Chj-jj9-x8mvQ5-HvKuMk4jsJY',
+            query: '',
+            img: '',
+
+            async getImage() {
+                let resp = await fetch(`https://api.unsplash.com/photos/random?query=${this.query}`, {
+                    headers: {
+                        'Authorization': `Client-ID ${this.authToken}`,
+                    }
+                })
+                resp = await resp.json();
+
+                this.img = `${resp.urls.regular}`
+                console.log(this.img);
+            }
+        }">
+            <form x-on:submit.prevent="getImage">
+                <input type=text" x-model="query">
+                <button type="submit">Search</button>
+            </form>
+
+            <div>
+                <img x-bind:src="img" style="width: 300px;">
+            </div>
+        </div>
+    </body>
+
+</html>
